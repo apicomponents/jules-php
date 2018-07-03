@@ -1,0 +1,19 @@
+{
+    "name": "bat/jules",
+    "description": "tool for transforming JSON",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Benjamin Atkin",
+            "email": "ben@benatkin.com"
+        }
+    ],
+    "require": {},
+    "require-dev": {
+        "codeception/codeception": "^2.4"
+    },
+    "scripts": {
+        "test": "codecept run"
+    }
+}
