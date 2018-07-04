@@ -1,5 +1,7 @@
 <?php
 
+namespace Jules;
+
 class Jules {
 	const PATH_START_PATTERN = '#([a-zA-Z$_][a-zA-Z0-9$_]*)#A';
 	const PATH_PATTERN = '#(?|\.([a-zA-Z$_][a-zA-Z0-9$_]*)|\[\s*("(?:\\\\[\s\S]|[^"\\\\])*"|\'(?:\\\\[\s\S]|[^\'\\\\])*\'|\d+)\s*\])#A';
@@ -53,13 +55,13 @@ class Jules {
 		}
 		$ref = $data;
 		foreach ($pathArr as $key => $value) {
-			if ($ref instanceof stdClass && isset($ref->{$value})) {
+			if ($ref instanceof \stdClass && isset($ref->{$value})) {
 				$ref = $ref->{$value};
 			} else {
 				return;
 			}
 		}
-		if ($ref instanceof stdClass && isset($ref->{'$get'})) {
+		if ($ref instanceof \stdClass && isset($ref->{'$get'})) {
 			return $this->fnGet($data, $ref->{'$get'}, $follows + 1);
 		}
 		return $ref;
@@ -121,14 +123,14 @@ class Jules {
 	public function eval($data, $root = NULL) {
 		if ($root == NULL) {
 			$root = $data;
-			$data = json_decode(json_encode($data));
+			$data = json_decode(json_encode($data), FALSE);
 		}
 
-		if ($data instanceof stdClass) {
+		if ($data instanceof \stdClass) {
 			foreach ($data as $key => $value) {
-				if ($value instanceof stdClass && isset($value->{'$get'})) {
+				if ($value instanceof \stdClass && isset($value->{'$get'})) {
 					$data->{$key} = $this->fnGet($root, $value->{'$get'});
-				} else if ($value instanceof stdClass) {
+				} else if ($value instanceof \stdClass) {
 					$this->eval($value, $root);
 				} else if (is_string($value)) {
 					if (preg_match(self::EMBEDDED_EXPR_PATTERN, $value)) {

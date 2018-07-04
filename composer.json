@@ -15,5 +15,10 @@
     },
     "scripts": {
         "test": "codecept run"
+    },
+    "autoload": {
+      "psr-4": {
+        "Jules\\": "src/"
+      }
     }
 }

@@ -1,6 +1,6 @@
 <?php
 
-include './jules.php';
+namespace Jules;
 
 class JulesTest extends \Codeception\Test\Unit
 {
@@ -122,5 +122,14 @@ EOS;
 EOS;
 		$input = json_decode($input_str);
 		$this->assertEquals(NULL, $jules->eval($input)->{'a'});
+	}
+
+	public function skip_testLet() {
+		$jules = new Jules();
+		$input_str = <<<'EOS'
+{"$let": {"foo": 29}, "a": {"$get": "foo"}}
+EOS;
+		$input = json_decode($input_str);
+		$this->assertEquals(29, $jules->eval($input)->{'a'});
 	}
 }
